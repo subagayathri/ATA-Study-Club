@@ -1,10 +1,21 @@
 import { createClient } from "@supabase/supabase-js"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Check if the environment variables are defined
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Validate environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error(
+    "Missing Supabase environment variables. Please check your .env.local file or environment configuration.",
+  )
+}
 
+// Create the Supabase client with fallback empty strings to prevent runtime errors
+// This will still log errors but won't crash the application
+export const supabase = createClient(supabaseUrl || "", supabaseAnonKey || "")
+
+// Rest of the file remains the same...
 export type Category = {
   id: number
   name: string
@@ -22,32 +33,43 @@ export type StudyMaterial = {
   views: number
   downloads: number
   featured: boolean
+  imageUrl?: string // Add this line
 }
 
 export async function getCategories(): Promise<Category[]> {
-  const { data, error } = await supabase.from("categories").select("*").order("id")
+  try {
+    const { data, error } = await supabase.from("categories").select("*").order("id")
 
-  if (error) {
-    console.error("Error fetching categories:", error)
+    if (error) {
+      console.error("Error fetching categories:", error)
+      return []
+    }
+
+    return data || []
+  } catch (err) {
+    console.error("Failed to fetch categories:", err)
     return []
   }
-
-  return data || []
 }
 
 export async function getStudyMaterials(featured?: boolean): Promise<StudyMaterial[]> {
-  let query = supabase.from("study_materials").select("*").order("id")
+  try {
+    let query = supabase.from("study_materials").select("*").order("id")
 
-  if (featured !== undefined) {
-    query = query.eq("featured", featured)
-  }
+    if (featured !== undefined) {
+      query = query.eq("featured", featured)
+    }
 
-  const { data, error } = await query
+    const { data, error } = await query
 
-  if (error) {
-    console.error("Error fetching study materials:", error)
+    if (error) {
+      console.error("Error fetching study materials:", error)
+      return []
+    }
+
+    return data || []
+  } catch (err) {
+    console.error("Failed to fetch study materials:", err)
     return []
   }
-
-  return data || []
 }

@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 export default function HeroBanner() {
   return (
     <div className="relative bg-gray-900 text-white overflow-hidden">
@@ -15,31 +13,13 @@ export default function HeroBanner() {
           <div className="md:w-1/2 flex justify-center">
             <div className="relative w-full h-48 md:h-64">
               <div className="absolute left-0 top-0 w-1/3 h-full">
-                <Image
-                  src="/placeholder.svg?height=300&width=200"
-                  alt="Book cover"
-                  width={200}
-                  height={300}
-                  className="object-cover h-full w-full rounded-md"
-                />
+                <img src="/images/banner-1.jpg" alt="Book cover" className="object-cover h-full w-full rounded-md" />
               </div>
               <div className="absolute left-1/3 top-0 w-1/3 h-full">
-                <Image
-                  src="/placeholder.svg?height=300&width=200"
-                  alt="Book cover"
-                  width={200}
-                  height={300}
-                  className="object-cover h-full w-full rounded-md"
-                />
+                <img src="/images/banner-2.jpg" alt="Book cover" className="object-cover h-full w-full rounded-md" />
               </div>
               <div className="absolute right-0 top-0 w-1/3 h-full">
-                <Image
-                  src="/placeholder.svg?height=300&width=200"
-                  alt="Book cover"
-                  width={200}
-                  height={300}
-                  className="object-cover h-full w-full rounded-md"
-                />
+                <img src="/images/banner-3.jpg" alt="Book cover" className="object-cover h-full w-full rounded-md" />
               </div>
             </div>
           </div>

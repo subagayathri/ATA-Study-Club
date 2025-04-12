@@ -3,7 +3,7 @@ import { formatDistanceToNow } from "date-fns"
 import { ko } from "date-fns/locale"
 
 interface MaterialCardProps {
-  material: StudyMaterial
+  material: StudyMaterial & { imageUrl?: string }
   index: number
 }
 
@@ -19,7 +19,16 @@ export default function MaterialCard({ material, index }: MaterialCardProps) {
         {index + 1}
       </div>
 
-      <div className="mt-6">
+      {/* Add image */}
+      <div className="w-full h-32 mb-3 overflow-hidden rounded-md">
+        <img
+          src={material.imageUrl || "/images/default-material.jpg"}
+          alt={material.title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      <div>
         <div className="flex items-center gap-1 text-xs text-blue-600 mb-1">
           <span className="bg-blue-100 px-1 rounded">스터디자료</span>
           <span>|</span>
@@ -36,3 +45,10 @@ export default function MaterialCard({ material, index }: MaterialCardProps) {
     </div>
   )
 }
+
+// In any component where you need an image
+<img 
+  src="https://placehold.co/600x400/333/white?text=Study+Material" 
+  alt="Study Material" 
+  className="w-full h-full object-cover"
+/>
